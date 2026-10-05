@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Business Manager</title>
+<style>
+:root{--bg:#f8fafd;--fg:#1f1f1f;--c:#fff;--sf:#e9eef6;--bd:#dde3ea;--p:#d3e3fd;--pf:#041e49;--r:#c5221f;--g:#0b6e2e;--o:#b45309;--sh:0 2px 12px rgba(60,64,67,.14);--gr:linear-gradient(90deg,#4285f4,#9b72cb,#d96570);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131314;--fg:#e3e3e3;--c:#1e1f20;--sf:#2d2e30;--bd:#444746;--p:#0842a0;--pf:#d3e3fd;--r:#f28b82;--g:#81c995;--o:#fdd663;--sh:0 2px 12px rgba(0,0,0,.5)}}
+:root[data-theme="dark"]{--bg:#131314;--fg:#e3e3e3;--c:#1e1f20;--sf:#2d2e30;--bd:#444746;--p:#0842a0;--pf:#d3e3fd;--r:#f28b82;--g:#81c995;--o:#fdd663;--sh:0 2px 12px rgba(0,0,0,.5)}
+html{font-size:18px}body{margin:0;background:var(--bg);color:var(--fg);font-family:'Google Sans','Segoe UI',Roboto,Arial,sans-serif;font-weight:600;padding:.8rem}
+button{font:inherit;font-weight:600;padding:.6rem 1.1rem;margin:.2rem;border:0;border-radius:999px;background:var(--p);color:var(--pf);cursor:pointer;transition:transform .15s,box-shadow .2s}
+button:active{transform:scale(.95)}button.g{background:var(--sf);color:var(--fg)}
+#ok{background:var(--gr);color:#fff;box-shadow:var(--sh)}
+.fab{position:fixed;right:1.2rem;bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));width:3.6rem;height:3.6rem;padding:0 0 .25rem;margin:0;border-radius:50%;font-size:2.2rem;line-height:1;background:linear-gradient(135deg,#6ee7b7,#22c55e 55%,#15803d);color:#fff;box-shadow:0 6px 18px rgba(22,163,74,.55);z-index:5}
+#list{padding-bottom:5.5rem}
+input,select,textarea{font:inherit;font-weight:500;padding:.7rem 1rem;margin:.2rem 0;width:100%;box-sizing:border-box;border:1.5px solid var(--bd);border-radius:16px;background:var(--c);color:var(--fg);outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:#4285f4;box-shadow:0 0 0 3px rgba(66,133,244,.25)}
+#q{border-radius:999px;margin:.4rem 0;padding-left:2.9rem}.sw{position:relative}.sw svg{position:absolute;left:1rem;top:50%;transform:translateY(-50%);opacity:.65;pointer-events:none}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.top>span:first-child{background:var(--gr);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+.tabs{display:flex;background:var(--sf);border-radius:999px;padding:.25rem;margin:.6rem 0}
+.tabs button{flex:1;margin:0;background:transparent;color:var(--fg);padding:.6rem .3rem}
+.tabs button.on{background:var(--c);box-shadow:var(--sh);color:#1a73e8}
+.sum{font-size:1.3em;background:#000;color:#fff;border-radius:28px;padding:1rem 1.3rem;margin:.6rem 0;box-shadow:var(--sh)}
+#list{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:.4rem}
+.card{background:var(--c);border:1px solid var(--bd);border-radius:24px;padding:1rem 1.1rem;flex:1 1 15rem;max-width:100%;box-sizing:border-box;box-shadow:var(--sh);font-weight:500}
+.card.late{border:2px solid var(--r)}.bt{margin-top:.6rem;display:flex;flex-wrap:wrap;align-items:center;gap:.4rem}.bt button{margin:0}.bt .rd{margin-left:auto}.R{color:var(--r)}.G{color:var(--g)}.O{color:var(--o)}
+#m{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:.6rem;z-index:9}
+.box{background:var(--c);border-radius:28px;padding:1.2rem;width:100%;max-width:30rem;max-height:90%;overflow:auto;box-sizing:border-box;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.box h2{margin:.2rem 0}.box label{display:block;margin-top:.5rem}.err{color:var(--r)}.rw{display:flex;justify-content:space-between;align-items:baseline;gap:.8rem}.rw b{text-align:right}.sum{display:flex;justify-content:space-between;align-items:center;gap:1rem}.sum .sl{flex:1}.sv{font-size:1.45em;text-align:right;color:#4ade80}
+.bk{background:#000;color:#fff;border:1.5px solid #555}.rd{background:#dc2626;color:#fff}.ic{width:3rem;height:3rem;padding:0;border-radius:50%;font-size:1.3rem;line-height:1}
+.ic svg{display:block;margin:auto}
+#bar .ic{position:fixed;left:1.2rem;bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));width:3.6rem;height:3.6rem;margin:0;font-size:1.8rem;box-shadow:var(--sh);z-index:5}
+.ht{font-size:.8em;opacity:.7;margin-bottom:.3rem}.h{width:100%}.h div{border-bottom:1px solid var(--bd);padding:.4rem 0;font-weight:500}
+/* ===== Liquid glass look ===== */
+:root{--gl:rgba(255,255,255,.55);--gb:rgba(255,255,255,.75);--gs:0 8px 30px rgba(60,80,160,.18),inset 0 1px 1px rgba(255,255,255,.9);--tt:#000}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--gl:rgba(44,46,54,.5);--gb:rgba(255,255,255,.16);--gs:0 8px 30px rgba(0,0,0,.5),inset 0 1px 1px rgba(255,255,255,.2);--tt:#fff}}
+:root[data-theme="dark"]{--gl:rgba(44,46,54,.5);--gb:rgba(255,255,255,.16);--gs:0 8px 30px rgba(0,0,0,.5),inset 0 1px 1px rgba(255,255,255,.2);--tt:#fff}
+body{min-height:100vh;background:var(--bg)}
+.top>span:first-child{background:none;color:var(--tt)}
+.card,.tabs,.box{background:var(--gl);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);border:1px solid var(--gb);box-shadow:var(--gs)}
+.card.late{border:2px solid var(--r)}
+.tabs button.on{background:var(--gb);box-shadow:var(--gs)}
+button{background:rgba(66,133,244,.2);border:1px solid var(--gb);box-shadow:inset 0 1px 1px rgba(255,255,255,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+button.g{background:var(--gl)}
+.tabs button{border:0;box-shadow:none;background:transparent}.tabs button.on{background:var(--gb);box-shadow:var(--gs)}
+input,select,textarea{background:var(--gl);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid var(--gb);box-shadow:inset 0 1px 2px rgba(0,0,0,.06)}
+.sum{background:linear-gradient(160deg,#2c2c2f,#000 65%);box-shadow:inset 0 1px 1px rgba(255,255,255,.3),0 10px 26px rgba(0,0,0,.3)}
+.fab{box-shadow:0 8px 22px rgba(22,163,74,.5),inset 0 2px 3px rgba(255,255,255,.55)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .tabs button.on{color:#fff}}
+:root[data-theme="dark"] .tabs button.on{color:#fff}
+/* ===== Roomier card layout ===== */
+.card{padding:1.2rem 1.3rem}
+.ch{display:flex;justify-content:space-between;align-items:center;gap:.6rem;margin-bottom:.9rem}
+.ct{font-size:1.25em;font-weight:700}.dt{font-size:.75em;opacity:.65;font-weight:600;margin-bottom:.15rem}
+.chip{font-size:.7em;font-weight:700;padding:.25rem .75rem;border-radius:999px;border:1.5px solid currentColor;white-space:nowrap}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:.9rem .8rem}
+.tl small{display:block;font-size:.7em;opacity:.65;font-weight:600;margin-bottom:.1rem}
+.bt{margin-top:1.1rem;padding-top:.9rem;border-top:1px solid var(--bd)}
+.ch{align-items:flex-start}.cr{display:flex;flex-direction:column;align-items:flex-end;gap:.35rem}.dt{margin:0;white-space:nowrap}
+.dt{font-size:.95em;opacity:.8}
+/* ===== Fit small phone screens: no sideways scroll ===== */
+html,body{overflow-x:hidden;max-width:100%}
+.tabs button{min-width:0;font-size:.8em;padding:.7rem .2rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card,.tg>*,.sum>*,.top>*{min-width:0}.tg{overflow-wrap:anywhere}
+.sum{flex-wrap:wrap}
+.tabs{gap:.4rem}
+/* ===== Professional neutral background ===== */
+:root{--pg:linear-gradient(180deg,#edf1f6 0%,#d5dce7 100%)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--pg:linear-gradient(180deg,#292d38 0%,#161b22 100%)}}
+:root[data-theme="dark"]{--pg:linear-gradient(180deg,#292d38 0%,#161b22 100%)}
+body{background:var(--pg);background-attachment:fixed}
+html{background:#d5dce7}
+@media(prefers-color-scheme:dark){html:not([data-theme="light"]){background:#161b22}}
+html[data-theme="dark"]{background:#161b22}
+#list{padding-bottom:0}.ft{text-align:right;font-size:.7em;opacity:.7;padding:1.2rem .2rem 5.5rem;font-weight:600;line-height:1.5}
+/* ===== Footer stuck to bottom of screen ===== */
+.ft{position:fixed;left:0;right:0;bottom:0;z-index:4;padding:.45rem 1rem calc(.45rem + env(safe-area-inset-bottom,0px));background:var(--gl);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--gb);text-align:right;font-size:.7em;opacity:1;line-height:1.5}
+.fab{bottom:calc(3.9rem + env(safe-area-inset-bottom,0px))}
+#bar .ic{bottom:calc(3.9rem + env(safe-area-inset-bottom,0px))}
+#list{padding-bottom:9rem}
+.mini{padding:.1rem .5rem;font-size:.75em;line-height:1.3;min-width:0;margin:.1rem}
+.ft{background:none;-webkit-backdrop-filter:none;backdrop-filter:none;border-top:0;font-size:.55em;color:#8a8f98;font-weight:500;pointer-events:none;padding:.3rem 1rem calc(.3rem + env(safe-area-inset-bottom,0px))}
+.fab,#bar .ic{bottom:calc(3rem + env(safe-area-inset-bottom,0px))}
+#list{padding-bottom:8rem}
+.top>span:last-child{display:flex;align-items:center;gap:.5rem}.mini{margin:0}
+.rr{color:var(--r);font-weight:600}
+/* ===== Footer behind everything (z-index -10) ===== */
+body{position:relative;z-index:0}
+.ft{z-index:-10;text-align:center}
+.fab,#bar .ic{bottom:calc(.8rem + env(safe-area-inset-bottom,0px))}
+#ok{background:#000;color:#fff;box-shadow:none}
+</style></head><body>
+<div class="top"><span id="ttl" style="font-size:1.8em;cursor:pointer" onclick="askName()">Business Manager</span><span><button class="g mini" onclick="fz(-2)" aria-label="Smaller text">−</button><button class="g mini" onclick="fz(2)" aria-label="Bigger text">+</button><button class="g mini" id="th" onclick="th()">Theme</button><button class="g mini" onclick="bk()">Backup</button></span></div>
+<div class="tabs"><button class="tab" data-t="inv" onclick="go('inv')">INVENTORY</button><button class="tab" data-t="pay" onclick="go('pay')">PAYMENTS</button><button class="tab" data-t="adv" onclick="go('adv')">ADVANCE</button></div>
+<div class="sum" id="sum"></div>
+<div class="sw"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960" fill="currentColor"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg><input id="q" placeholder="Search name or material..." oninput="q=this.value;list()"></div>
+<div id="bar"></div><div id="list"></div><div class="ft">Made &amp; developed by <span class="rr">Kartk</span><br>© 2026 <span class="rr">All rights reserved</span></div><div id="m"></div>
+<script>
+// ===== DATA (saved on this device in localStorage) =====
+const K='bizapp1';let S={inv:[],pay:[],adv:[],log:{inv:[],pay:[],adv:[]},fs:18};
+try{const x=JSON.parse(localStorage.getItem(K));if(x)S=Object.assign(S,x)}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const $=s=>document.querySelector(s),R=n=>'₹'+(+n||0).toLocaleString('en-IN'),iso=()=>new Date().toISOString().slice(0,10);
+const fd=s=>{if(!s)return'-';const p=String(s).split('-');return +p[2]+'/'+ +p[1]+'/'+p[0].slice(2)},e=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const log=(k,m)=>{const n=new Date();S.log[k].unshift(n.getDate()+'/'+(n.getMonth()+1)+'/'+String(n.getFullYear()).slice(2)+', '+n.toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'})+' — '+m)};
+let tab='inv',q='',showH=false;
+function go(t){tab=t;showH=false;render()}
+function fz(d){S.fs=Math.min(34,Math.max(12,S.fs+d));save();document.documentElement.style.fontSize=S.fs+'px'}
+// ===== POPUP FORM =====
+const err=t=>{$('#err').textContent=t};
+const szc=s=>{const t=$('#'+s.id+'_o');t.style.display=s.value=='__o'?'block':'none';if(s.value=='__o')t.focus()};
+function form(title,f,v,cb){const m=$('#m');
+m.innerHTML=`<div class=box><h2>${title}</h2>${f.map(a=>a[2]=='sel'||a[2]=='size'?`<label>${a[1]}<select id=f_${a[0]} ${a[2]=='size'?'onchange=szc(this)':''}>${(v[a[0]]&&!a[4].some(o=>o[0]==v[a[0]])?a[4].concat([[v[a[0]],v[a[0]]]]):a[4]).concat(a[2]=='size'?[['__o','Other (type size)']]:[]).map(o=>`<option value="${e(o[0])}" ${v[a[0]]!=null&&v[a[0]]!==''&&o[0]==v[a[0]]?'selected':''}>${e(o[1])}</option>`).join('')}</select>${a[2]=='size'?`<input id=f_${a[0]}_o placeholder="Type size, e.g. 55×65" style="display:none">`:''}</label>`:`<label>${a[1]}<input id=f_${a[0]} type=${a[2]} value="${e(v[a[0]]??'')}" ${a[2]=='number'?'min=0 step=any inputmode=decimal':''}></label>`).join('')}<p id=err class=err></p><button id=ok>Save</button><button id=no class=g>Cancel</button></div>`;
+m.style.display='flex';$('#no').onclick=()=>m.style.display='none';
+$('#ok').onclick=()=>{const o={};for(const a of f){let x=$('#f_'+a[0]).value.trim();if(x=='__o')x=$('#f_'+a[0]+'_o').value.trim();if(a[2]=='number'){if(x!==''&&+x<0)return err(a[1]+' cannot be negative');x=x===''?'':+x}if(a[3]&&x==='')return err(a[1]+' is required');o[a[0]]=x}
+const r=cb(o);if(r)return err(r);m.style.display='none';save();render()}}
+function ask(msg,cb){const m=$('#m');m.innerHTML=`<div class=box><h2>${e(msg)}</h2><button id=ok>Yes</button><button id=no class=g>No</button></div>`;m.style.display='flex';
+$('#no').onclick=()=>m.style.display='none';$('#ok').onclick=()=>{m.style.display='none';cb();save();render()}}
+// ===== INVENTORY =====
+const SZO=[['','Select size']].concat(['40×45','45×45','45×50','45×55','50×60','50×72','60×60','60×80','72×72','72×80'].map(s=>[s,s]));
+const IF=[['name','Material name','text',1],['size','Size','size',0,SZO],['units','Units','number',1],['price','Price per unit (₹)','number',1],['date','Date added','date']];
+function invForm(i){form(i==null?'Add Item':'Edit Item',IF,i==null?{date:iso()}:S.inv[i],o=>{o.date=o.date||iso();
+if(i==null){S.inv.push(o);log('inv',`ADDED ${o.name} ${o.size}: ${o.units} units @ ${R(o.price)}`)}
+else{const p=S.inv[i];if(o.units!=p.units)log('inv',`STOCK ${o.units>p.units?'IN':'OUT'} ${Math.abs(o.units-p.units)} — ${p.name}: ${p.units} → ${o.units}`);
+if(o.price!=p.price||o.name!=p.name||o.size!=p.size)log('inv',`EDITED ${p.name} (${p.size}, ${R(p.price)}) → ${o.name} (${o.size}, ${R(o.price)})`);Object.assign(p,o)}})}
+function invDel(i){const p=S.inv[i];ask('Remove '+p.name+'?',()=>{log('inv',`REMOVED ${p.name} ${p.size}: ${p.units} units, value ${R(p.units*p.price)}`);S.inv.splice(i,1)})}
+function addStock(name,size,qty,price){const p=S.inv.find(x=>x.name.toLowerCase()==name.toLowerCase()&&x.size==size);
+if(p){p.units+=qty;log('inv',`STOCK IN ${qty} — ${name}: ${p.units-qty} → ${p.units}`)}else{S.inv.push({name,size,units:qty,price,date:iso()});log('inv',`ADDED ${name} ${size}: ${qty} units (from supplier)`)}}
+// ===== PAYMENTS =====
+const PF=[['name','Buyer name','text',1],['units','Units bought','number',1],['size','Material size','size',0,SZO],['rate','Rate per unit (₹)','number',1],['date','Date','date']];
+function payForm(i){const add=i==null,f=add?PF.concat([['link','Reduce stock of (optional)','sel',0,[['','None']].concat(S.inv.map((x,j)=>[j,`${x.name} ${x.size} (stock ${x.units})`]))]]):PF;
+form(add?'Add Payment':'Edit Payment',f,add?{date:iso()}:S.pay[i],o=>{o.date=o.date||iso();o.paid=add?0:S.pay[i].paid;const t=o.units*o.rate;if(o.paid>t)return'Total cannot be less than amount already received ('+R(o.paid)+')';
+if(add){if(o.link!==''){const it=S.inv[o.link];if(o.units>it.units)return'Not enough stock (only '+it.units+')';it.units-=o.units;log('inv',`STOCK OUT ${o.units} — ${it.name}: sold to ${o.name}`)}delete o.link;o.done=o.paid>=t;S.pay.push(o);log('pay',`ADDED ${o.name}: ${R(t)}, paid ${R(o.paid)}`)}
+else{const p=S.pay[i];log('pay',`EDITED ${p.name}: total ${R(p.units*p.rate)} → ${R(t)}, paid ${R(p.paid)} → ${R(o.paid)}`);Object.assign(p,o);p.done=p.paid>=t}})}
+function payPart(i){const p=S.pay[i],b=p.units*p.rate-p.paid;form('Payment from '+p.name+' (balance '+R(b)+')',[['amt','Amount received (₹)','number',1]],{},o=>{if(o.amt>b)return'Cannot exceed balance '+R(b);p.paid+=o.amt;log('pay',`RECEIVED ${R(o.amt)} from ${p.name}`);if(p.paid>=p.units*p.rate){p.done=true;log('pay',`COMPLETED ${p.name}`)}})}
+function payDone(i){const p=S.pay[i];ask('Mark '+p.name+' as completed?',()=>{p.paid=p.units*p.rate;p.done=true;log('pay',`COMPLETED ${p.name}: ${R(p.paid)}`)})}
+// ===== ADVANCE (paid to suppliers) =====
+const AF=[['sup','Supplier name','text',1],['size','Size','size',0,SZO],['qty','Quantity ordered','number',1],['amt','Advance paid (₹)','number',1],['date','Date paid','date']];
+function advForm(i){form(i==null?'Add Advance':'Edit Advance',AF,i==null?{date:iso()}:S.adv[i],o=>{o.date=o.date||iso();
+if(i==null){o.rec=0;o.done=false;S.adv.push(o);log('adv',`ADDED ${o.sup}: ${R(o.amt)} for ${o.qty} units (${o.size||'-'})`)}
+else{const p=S.adv[i];if(o.qty<p.rec)return'Quantity cannot be less than received ('+p.rec+')';log('adv',`EDITED ${p.sup}`);Object.assign(p,o);p.done=p.rec>=p.qty}})}
+function advRecv(i){const p=S.adv[i],b=p.qty-p.rec;form('Received from '+p.sup+' (pending '+b+')',[['q','Quantity received','number',1],['inv','Add to inventory?','sel',0,[['y','Yes'],['n','No']]]].concat(p.mat?[]:[['mn','Material name (needed to add to inventory)','text']]),{},o=>{if(!o.q)return'Enter quantity';if(o.q>b)return'Cannot exceed pending '+b;const nm=p.mat||o.mn;if(o.inv=='y'&&!nm)return'Enter material name to add to inventory';if(o.mn&&!p.mat)p.mat=o.mn;
+p.rec+=o.q;log('adv',`RECEIVED ${o.q} units from ${p.sup}`);if(o.inv=='y')addStock(nm,p.size,o.q,p.amt/p.qty);if(p.rec>=p.qty){p.done=true;log('adv',`FULLY RECEIVED ${p.sup}`)}})}
+// ===== SCREEN =====
+const IH='<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 -960 960 960" fill="currentColor"><path d="M480-120q-138 0-240.5-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z"/></svg>',ID='<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 -960 960 960" fill="currentColor"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>';
+const row=(a,b)=>`<div>${a}: <b>${e(b)}</b></div>`,B=(t,f,c='')=>`<button class="${c}" onclick="${f}">${t}</button>`;
+const tl=(a,b)=>`<div class=tl><small>${a}</small><b>${e(b)}</b></div>`;
+function card(i,h){const x=S[tab][i];let t='',chip='',g='',b='';
+if(tab=='inv'){t=x.name;g=tl('Size',x.size||'-')+tl('Units',x.units)+tl('Price / unit',R(x.price))+tl('Total price',R(x.units*x.price))+'';b=B('Edit',`invForm(${i})`,'bk')+B(ID,`invDel(${i})`,'rd ic')}
+if(tab=='pay'){const T=x.units*x.rate;t=x.name;chip=`<span class="chip ${x.done?'G':'R'}">${x.done?'COMPLETED':'PENDING'}</span>`;g=tl('Units',x.units)+tl('Size',x.size||'-')+tl('Rate',R(x.rate))+tl('Total',R(T))+tl('Paid',R(x.paid))+tl('Balance',R(T-x.paid));b=B('Edit',`payForm(${i})`,'bk')+B('Add Payment',`payPart(${i})`)+B('Mark Completed',`payDone(${i})`)}
+if(tab=='adv'){const p=x.qty-x.rec,s=x.rec>=x.qty?['FULLY RECEIVED','G']:x.rec>0?['PARTIAL','O']:['WAITING','R'];t=x.sup;chip=`<span class="chip ${s[1]}">${s[0]}</span>`;g=(x.mat?tl('Material',x.mat):'')+tl('Size',x.size||'-')+tl('Ordered',x.qty)+tl('Advance paid',R(x.amt))+tl('Received',x.rec)+tl('Pending',p);b=B('Edit',`advForm(${i})`,'bk')+B('Material Received',`advRecv(${i})`)}
+return`<div class="card"><div class=ch><div class=ct>${e(t)}</div><div class=cr><div class=dt>${fd(x.date)}</div>${chip}</div></div><div class=tg>${g}</div>${h?'':`<div class=bt>${b}</div>`}</div>`}
+function th(){S.theme=S.theme=='light'?'dark':S.theme=='dark'?'':'light';save();render()}
+function render(){document.documentElement.style.fontSize=S.fs+'px';
+if(S.theme)document.documentElement.dataset.theme=S.theme;else delete document.documentElement.dataset.theme;
+$('#ttl').textContent=S.name||'Business Manager';
+$('#th').textContent=S.theme=='light'?'☀️':S.theme=='dark'?'🌙':'🌓';document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.t==tab));
+const L=S[tab],act=L.filter(x=>!x.done);let s;
+if(tab=='inv')s=['Inventory Value',R(L.reduce((a,x)=>a+x.units*x.price,0))];
+if(tab=='pay')s=['Pending Amount',R(act.reduce((a,x)=>a+x.units*x.rate-x.paid,0))];
+if(tab=='adv')s=['Advance for Material',R(act.reduce((a,x)=>a+x.amt*(x.qty-x.rec)/x.qty,0))];
+$('#sum').innerHTML='<div class=sl>'+s[0]+'</div><div class=sv>'+s[1]+'</div>';const n={inv:['Add Item','invForm()'],pay:['Add Payment','payForm()'],adv:['Add Advance','advForm()']}[tab];
+$('#bar').innerHTML='<button class=fab aria-label="'+n[0]+'" onclick="'+n[1]+'">+</button>'+'<button class="g ic" aria-label="History" onclick="showH=!showH;render()">'+(showH?'←':IH)+'</button>';list()}
+const lc=l=>{const k=l.indexOf(' — '),t=l.slice(0,k).replace(/^(\d+\/\d+\/)\d\d(\d\d), (\d+:\d+):\d+/,'$1$2, $3'),g=l.slice(k+3),c=/^(ADDED|STOCK IN|RECEIVED|COMPLETED|FULLY)/.test(g)?'G':/^(REMOVED|STOCK OUT)/.test(g)?'R':'O';return`<div class="card"><div class=ht>${e(t)}</div><div class="${c}">${e(g)}</div></div>`};
+function list(){const L=S[tab],m=x=>JSON.stringify(x).toLowerCase().includes(q.toLowerCase());let h='';
+if(!showH){const a=L.map((x,i)=>i).filter(i=>!L[i].done&&m(L[i]));h=a.map(i=>card(i)).join('')||'<p>Nothing here yet. Tap the Add button.</p>'}
+else{const d=L.map((x,i)=>i).filter(i=>L[i].done&&m(L[i]));h=d.map(i=>card(i,1)).join('')+(S.log[tab].filter(m).map(lc).join('')||'<p>No history yet.</p>')}
+$('#list').innerHTML=h}
+// ===== BACKUP: copy text to save, paste text to restore =====
+function bk(){const m=$('#m');m.innerHTML=`<div class=box><h2>Backup</h2><p>Copy this text and save it (WhatsApp / Notes). To restore, paste a saved backup here and tap Restore.</p><textarea id=bt rows=8></textarea><p id=err class=err></p><button id=cp>Copy</button><button id=rs class=g>Restore</button><button id=no class=g>Close</button></div>`;m.style.display='flex';
+$('#bt').value=JSON.stringify(S);$('#no').onclick=()=>m.style.display='none';
+$('#cp').onclick=()=>{$('#bt').select();try{document.execCommand('copy');err('Copied')}catch(x){err('Press and hold the text to copy')}};
+$('#rs').onclick=()=>{try{const x=JSON.parse($('#bt').value);if(!x.inv||!x.pay||!x.adv)throw 0;S=Object.assign({fs:18},x);save();m.style.display='none';render()}catch(x){err('Invalid backup text')}}}
+function askName(first){form(first?'Welcome! Enter your name':'Change name',[['name','Your name','text',1]],{name:S.name||''},o=>{S.name=o.name.charAt(0).toUpperCase()+o.name.slice(1)});if(first)$('#no').style.display='none'}
+render();if(!S.name)askName(1);
+</script></body></html>
